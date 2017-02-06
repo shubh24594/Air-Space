@@ -1,0 +1,12 @@
+package com.cg.airspace.service;
+
+
+import com.cg.airspace.beans.Users;
+import com.cg.airspace.exception.AirSpaceException;
+
+public interface IAirSpaceService {
+	
+	int addUser(Users user) throws AirSpaceException;
+	int generateBillId() throws AirSpaceException;
+
+}
