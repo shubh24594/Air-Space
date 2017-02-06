@@ -1,0 +1,32 @@
+package com.cg.airspace.service;
+
+import com.cg.airspace.beans.Users;
+import com.cg.airspace.dao.AirSpaceDaoImpl;
+import com.cg.airspace.dao.IAirSpaceDao;
+import com.cg.airspace.exception.AirSpaceException;
+
+public class AirSpaceServiceImpl implements IAirSpaceService {
+	private IAirSpaceDao dao = null; 
+
+	
+	public AirSpaceServiceImpl() {
+	   dao = new AirSpaceDaoImpl();
+	}
+
+
+	@Override
+	public int addUser(Users user) throws AirSpaceException {
+		// TODO Auto-generated method stub
+		return dao.addUser(user);
+	}
+
+
+	@Override
+	public int generateBillId() throws AirSpaceException {
+		// TODO Auto-generated method stub
+		return dao.generateBillId();
+	}
+	
+	
+
+}
