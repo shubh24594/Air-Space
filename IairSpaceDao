@@ -1,0 +1,13 @@
+package com.cg.airspace.dao;
+
+
+
+import com.cg.airspace.beans.Users;
+import com.cg.airspace.exception.AirSpaceException;
+
+public interface IAirSpaceDao {
+	
+	int addUser(Users user) throws AirSpaceException;
+	int generateBillId() throws AirSpaceException;
+
+}
