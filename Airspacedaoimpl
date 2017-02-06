@@ -1,0 +1,101 @@
+package com.cg.airspace.dao;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.naming.NamingException;
+
+import com.cg.airspace.beans.Users;
+import com.cg.airspace.exception.AirSpaceException;
+import com.cg.util.dbUtil;
+
+
+
+public class AirSpaceDaoImpl implements IAirSpaceDao {
+	Connection con = null;
+	PreparedStatement pstm = null;
+	private static final String INSERT_QUERY = "Insert into users values(?,?,?,?)";
+	private static final String BILL_QUERY = "SELECT SEQ_BILLS.NEXTVAL FROM DUAL";
+
+
+	@Override
+	public int addUser(Users user) throws AirSpaceException {
+		int status  = 0;
+
+		try
+		{
+			con = dbUtil.getConnection();
+			pstm = con.prepareStatement(INSERT_QUERY);
+			pstm.setString(1, user.getName());
+			pstm.setString(2, user.getUserName());
+			pstm.setString(3, user.getPassword());
+			pstm.setString(4, user.getMobileNumber());
+
+			status =pstm.executeUpdate();
+
+			if (status == 0) {
+				throw new AirSpaceException("Problem in insertion of records");
+
+			}
+
+		} 
+		catch (NamingException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new AirSpaceException(e.getMessage());
+
+		}
+		finally 
+		{
+			try {
+				if (con != null) {
+
+					pstm.close();
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		}
+
+
+		return status;
+
+	}
+
+
+	@Override
+	public int generateBillId() throws AirSpaceException {
+		int billId = 0;
+		try {
+			con = dbUtil.getConnection();
+			pstm = con.prepareStatement(BILL_QUERY);
+			ResultSet rs = pstm.executeQuery();
+			
+			while(rs.next())
+			{
+				billId = rs.getInt(1);
+			}
+			
+			
+		}
+		catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return billId;
+		
+	}
+
+
+}
